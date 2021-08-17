@@ -73,7 +73,6 @@ public class Main extends Canvas{
 		Rigidbody rb2=new Rigidbody(10f,10f,new Transform(new Vector2(100f,-200f)), false, new CircleCollider(20f,new Transform(new Vector2(20f,0f))));
 		Rigidbody rb3=new Rigidbody(5f,10f,new Transform(new Vector2(120f,0f)), false, new CircleCollider(10f,new Transform(new Vector2(10f,0f))));
 		Rigidbody rb4=new Rigidbody(10f,10f,new Transform(new Vector2(100f,-20f)), false, new CircleCollider(10f,new Transform(new Vector2(10f,0f))));
-		//Rigidbody rb3=new Rigidbody(10f,10f,new Transform(new Vector2(50f,-350f)), false, new CircleCollider(10f,new Transform(new Vector2(10f,0f))));
 		RigidPlane plane=new RigidPlane(new Transform(new Vector2(250f,-350f)),1000f);
 		w.AddRigidbodyToWorld(rb);
 		w.AddRigidbodyToWorld(rb2);
