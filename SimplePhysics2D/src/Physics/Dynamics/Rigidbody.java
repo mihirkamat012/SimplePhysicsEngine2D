@@ -80,6 +80,10 @@ public class Rigidbody {
 		transform.position.setMagnitude();
 		
 		collider.Center=this.transform;
+		if(type==RigidbodyType.BOX)
+		{
+			//do nothing for now.
+		}
 		
 	}
 	

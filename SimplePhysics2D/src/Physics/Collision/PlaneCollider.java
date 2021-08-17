@@ -53,11 +53,13 @@ public class PlaneCollider extends Collider {
 		c.isColliding=false;
 		return c;
 	}
-	@Override
+	
+	
+	/**
 	public Collision test(BoxCollider other) {
-		// TODO Auto-generated method stub
+		figuring this out...
 		return null;
 	}
-	
+	*/
 
 }

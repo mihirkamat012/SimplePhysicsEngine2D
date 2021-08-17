@@ -19,10 +19,6 @@ public class CircleCollider extends Collider{
 	{
 		return (Collider)this;
 	}
-	public Rigidbody getAttachedRigidbody()
-	{
-	 return attachedRigidbody;
-	}
 	public Collision test(CircleCollider other)
 	{
 		Collision c=new Collision();
@@ -30,7 +26,7 @@ public class CircleCollider extends Collider{
 		c.B=other.attachedRigidbody;
 		c.collisionNormal=c.B.transform.position.subtract(c.A.transform.position).normalized();
 		c.depth=(c.A.transform.position.subtract(c.B.transform.position).getSqrMagnitude()-(this.radius+other.radius)*(this.radius+other.radius));
-		System.out.println(c.depth+" ");
+		//System.out.println(c.depth+" ");
 		if(c.A.transform.position.subtract(c.B.transform.position).getSqrMagnitude()<=(this.radius+other.radius)*(this.radius+other.radius))
 		{
 			c.isColliding=true;
@@ -65,9 +61,8 @@ public class CircleCollider extends Collider{
 		return c;
 		
 	}
-	@Override
+	/**
 	public Collision test(BoxCollider other) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			figuring this out...
+	}*/
 }

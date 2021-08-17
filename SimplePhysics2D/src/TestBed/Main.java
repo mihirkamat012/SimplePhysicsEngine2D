@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 
 import Math.Transform;
 import Math.Vector2;
+
 import Physics.Collision.CircleCollider;
 import Physics.Collision.Collider;
 import Physics.Collision.PlaneCollider;
@@ -49,6 +50,10 @@ public class Main extends Canvas{
 							-(int)rb.collider.getAsPlaneCollider().P2.Y);
 					
 				}
+				else if(rb.getType()==RigidbodyType.BOX)
+				{
+					//do nothing for now...
+				}
 			}
 			try {
 				Thread.sleep((long)(Main.timeStep*1000));
@@ -68,6 +73,7 @@ public class Main extends Canvas{
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args)
 	{
+		
 		//comment
 		World w=new World();
 		Rigidbody rb=new Rigidbody(5f,10f,new Transform(new Vector2(80f,0f)), false, new CircleCollider(10f,new Transform(new Vector2(10f,0f))));
@@ -75,11 +81,13 @@ public class Main extends Canvas{
 		Rigidbody rb3=new Rigidbody(5f,10f,new Transform(new Vector2(120f,0f)), false, new CircleCollider(10f,new Transform(new Vector2(10f,0f))));
 		Rigidbody rb4=new Rigidbody(10f,10f,new Transform(new Vector2(100f,-20f)), false, new CircleCollider(10f,new Transform(new Vector2(10f,0f))));
 		RigidPlane plane=new RigidPlane(new Transform(new Vector2(250f,-350f)),1000f);
+		//RigidBox box=new RigidBox(10.0f,10.0f,new Transform(new Vector2(50f,60f),55f),false,new BoxCollider(new Transform(new Vector2(50f,60f),55f), 100, 100));
 		w.AddRigidbodyToWorld(rb);
 		w.AddRigidbodyToWorld(rb2);
 		w.AddRigidbodyToWorld(rb3);
 		w.AddRigidbodyToWorld(rb4);
 		w.AddRigidbodyToWorld(plane);
+		//w.AddRigidbodyToWorld(box);
 		w.addSolvers();
 		Main m=new Main();
 		m.setSize(1920, 1080);

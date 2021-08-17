@@ -12,14 +12,10 @@ public abstract class Collider {
 	}
 	public abstract Collision test(CircleCollider other);
 	public abstract Collision test(PlaneCollider other); 
-	public abstract Collision test(BoxCollider other);
+	
 	public CircleCollider getAsCircleCollider()
 	{
 		return (CircleCollider)this;
-	}
-	public BoxCollider getAsBoxCollider()
-	{
-		return (BoxCollider)this;
 	}
 	public PlaneCollider getAsPlaneCollider()
 	{

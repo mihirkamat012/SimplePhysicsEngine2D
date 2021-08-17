@@ -79,9 +79,13 @@ public class World {
 					{
 						cols.add(Rigidbodies.get(i).collider.test((CircleCollider)Rigidbodies.get(j).collider));
 					}
-					else
+					else if(Rigidbodies.get(j).getType()==RigidbodyType.PLANE)
 					{
 						cols.add(Rigidbodies.get(i).collider.test((PlaneCollider)Rigidbodies.get(j).collider));
+					}
+					else
+					{
+						continue;
 					}
 				}
 			}
