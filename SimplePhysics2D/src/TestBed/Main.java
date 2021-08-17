@@ -36,11 +36,17 @@ public class Main extends Canvas{
 			{
 				if(rb.getType()==RigidbodyType.BODY)
 				{
-					g.drawOval((int)rb.transform.position.X-(int)rb.collider.getAsCircleCollider().radius, -(int)rb.transform.position.Y-(int)rb.collider.getAsCircleCollider().radius, 2*(int)rb.collider.getAsCircleCollider().radius, 2*(int)rb.collider.getAsCircleCollider().radius);	
+					g.drawOval((int)rb.transform.position.X-(int)rb.collider.getAsCircleCollider().radius, 
+							-(int)rb.transform.position.Y-(int)rb.collider.getAsCircleCollider().radius, 
+							2*(int)rb.collider.getAsCircleCollider().radius, 
+							2*(int)rb.collider.getAsCircleCollider().radius);	
 				}
 				else if(rb.getType()==RigidbodyType.PLANE)
 				{
-					g.drawLine((int)rb.collider.getAsPlaneCollider().P1.X, -(int)rb.collider.getAsPlaneCollider().P1.Y, (int)rb.collider.getAsPlaneCollider().P2.X, -(int)rb.collider.getAsPlaneCollider().P2.Y);
+					g.drawLine((int)rb.collider.getAsPlaneCollider().P1.X, 
+							-(int)rb.collider.getAsPlaneCollider().P1.Y, 
+							(int)rb.collider.getAsPlaneCollider().P2.X, 
+							-(int)rb.collider.getAsPlaneCollider().P2.Y);
 					
 				}
 			}
@@ -95,7 +101,7 @@ public class Main extends Canvas{
 		Graphics g=m.getGraphics().create();
 		Graphics2D g2d=(Graphics2D)g;
 		g2d.scale(2, 2);
-		m.draw(g, w.getRigidbodies(),w);
+		m.draw(g2d, w.getRigidbodies(),w);
 		
 	}
 
