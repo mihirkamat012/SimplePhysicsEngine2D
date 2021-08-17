@@ -64,10 +64,7 @@ public class Main extends Canvas{
 		
 		
 	}
-	public void clear(Graphics g)
-	{
-		
-	}
+	
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args)
 	{
@@ -82,18 +79,11 @@ public class Main extends Canvas{
 		w.AddRigidbodyToWorld(rb2);
 		w.AddRigidbodyToWorld(rb3);
 		w.AddRigidbodyToWorld(rb4);
-		//w.AddRigidbodyToWorld(rb3);
 		w.AddRigidbodyToWorld(plane);
 		w.addSolvers();
-		//w.start(timeStep);
-		//timeStep=0.02f;
 		Main m=new Main();
 		m.setSize(1920, 1080);
-		
 		JFrame f=new JFrame();
-		
-		
-		//Graphics g=m.getGraphics();
 		f.setSize(1920,1080);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
