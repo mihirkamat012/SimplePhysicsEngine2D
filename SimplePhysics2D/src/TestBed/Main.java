@@ -68,6 +68,7 @@ public class Main extends Canvas{
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args)
 	{
+		//comment
 		World w=new World();
 		Rigidbody rb=new Rigidbody(5f,10f,new Transform(new Vector2(80f,0f)), false, new CircleCollider(10f,new Transform(new Vector2(10f,0f))));
 		Rigidbody rb2=new Rigidbody(10f,10f,new Transform(new Vector2(100f,-200f)), false, new CircleCollider(20f,new Transform(new Vector2(20f,0f))));
