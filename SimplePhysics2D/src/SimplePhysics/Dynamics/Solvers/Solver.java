@@ -1,8 +1,8 @@
-package Physics.Dynamics.Solvers;
+package SimplePhysics.Dynamics.Solvers;
 
 import java.util.ArrayList;
 
-import Physics.Collision.Collision;
+import SimplePhysics.Collision.Collision;
 
 public abstract class Solver
 {

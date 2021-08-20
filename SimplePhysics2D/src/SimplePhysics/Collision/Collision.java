@@ -1,9 +1,8 @@
-package Physics.Collision;
+package SimplePhysics.Collision;
 
-import java.util.ArrayList;
 
-import Math.*;
-import Physics.Dynamics.Rigidbody;
+import SimplePhysics.Dynamics.Rigidbody;
+import SimplePhysics.Math.*;
 
 public class Collision {
 	public Rigidbody A;

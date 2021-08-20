@@ -1,4 +1,4 @@
-package Math;
+package SimplePhysics.Math;
 //added comment
 public class Transform
 {

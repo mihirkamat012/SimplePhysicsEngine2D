@@ -1,12 +1,13 @@
-package Physics.Collision;
+package SimplePhysics.Collision;
 
-import Math.Transform;
-import Math.Vector2;
-import Physics.Dynamics.Rigidbody;
+
+import SimplePhysics.Dynamics.Rigidbody;
+import SimplePhysics.Math.Transform;
+import SimplePhysics.Math.Vector2;
 
 public class PlaneCollider extends Collider {
 
-	Transform Center;
+	
 	float Length;
 	public Vector2 P1;
 	public Vector2 P2;
@@ -53,6 +54,29 @@ public class PlaneCollider extends Collider {
 		c.isColliding=false;
 		return c;
 	}
+	@Override
+	public Collision test(AABBCollider other) {
+		Collision c=new Collision();
+		c.A=other.attachedRigidbody;
+		c.B=this.attachedRigidbody;
+		c.collisionNormal=new Vector2(0f,1f);
+		
+		if(other.minBoundsY.get()<=this.Center.position.Y)
+		{
+			
+			c.depth=this.Center.position.Y-other.minBoundsY.get();
+			System.out.println(c.depth);
+			c.isColliding=true;
+		}
+		else
+		{
+			c.isColliding=false;
+		}
+		// TODO Auto-generated method stub
+		return c;
+	}
+	
+	
 	
 	
 	/**

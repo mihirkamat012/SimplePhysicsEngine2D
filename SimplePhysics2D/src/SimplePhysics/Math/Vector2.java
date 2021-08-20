@@ -1,4 +1,4 @@
-package Math;
+package SimplePhysics.Math;
 public class Vector2 {
 	public float X;
 	public float Y;
@@ -69,6 +69,31 @@ public class Vector2 {
 		X=0f;
 		Y=0f;
 	}
+	public int quad()
+	{
+		if(X>=0)
+		{
+			if(Y>=0)
+			{
+				return 1;
+			}
+			else
+			{
+				return 4;
+			}
+		}
+		else
+		{
+			if(Y>=0)
+			{
+				return 2;
+			}
+			else
+			{
+				return 3;
+			}
+		}
+	}
 	public Vector2 not()
 	{
 		return new Vector2(-X,-Y);
@@ -86,6 +111,15 @@ public class Vector2 {
 		//I.subtract(	2 * N.dot(I) * N)
 		//this.refreshMagnitude();
 		return this.normalized().subtract(normal.normalized().multiply(2*normal.normalized().dot(this.normalized()))).multiply(this.magnitude);
+	}
+	//x y * x1 y1 = x*x1+y*x2 x*y1+y*y2
+	//		x2 y2
+	public Vector2 mul(Mat2x2 other)
+	{
+		return new Vector2(
+				X*other.x1+Y*other.x2,
+				X*other.y1+Y*other.y2
+				);
 	}
 	public Vector2 normalized()
 	{

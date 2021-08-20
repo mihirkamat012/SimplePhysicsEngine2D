@@ -1,7 +1,8 @@
-package Physics.Collision;
+package SimplePhysics.Collision;
 
-import Math.*;
-import Physics.Dynamics.Rigidbody;
+
+import SimplePhysics.Dynamics.Rigidbody;
+import SimplePhysics.Math.*;
 
 public class CircleCollider extends Collider{
 	public float radius;
@@ -61,8 +62,42 @@ public class CircleCollider extends Collider{
 		return c;
 		
 	}
-	/**
-	public Collision test(BoxCollider other) {
-			figuring this out...
+	@Override
+	public Collision test(AABBCollider other) {
+		
+		Collision c=new Collision();
+		c.A=other.attachedRigidbody;
+		c.B=this.attachedRigidbody;
+		Vector2 halfExtents=new Vector2(other.w*0.5f,other.h*0.5f);
+		Vector2 diff=this.Center.position.subtract(other.Center.position);
+		Vector2 clamped=Mathf.clamp(diff, halfExtents.not(), halfExtents);
+		Vector2 closest=other.Center.position.add(clamped);
+		Vector2 colVector=closest.subtract(this.Center.position);
+		c.collisionNormal=colVector.normalized().not();
+		if(colVector.magnitude<=this.radius)
+		{
+			c.depth=(-colVector.magnitude+this.radius)*2f;
+			c.isColliding=true;
+		}
+		else
+		{
+			
+			c.isColliding=false;
+		}
+		return c;
+		// TODO Auto-generated method stub
+		
+	}
+	//@Override
+	/*public void drawCollider(Graphics g) {
+		g.drawOval((int)this.attachedRigidbody.transform.position.X-(int)this.radius, 
+				-(int)this.attachedRigidbody.transform.position.X-(int)this.radius, 
+				2*(int)this.radius, 
+				2*(int)this.radius);	
+		
+		// TODO Auto-generated method stub
+		
 	}*/
+	
+	
 }

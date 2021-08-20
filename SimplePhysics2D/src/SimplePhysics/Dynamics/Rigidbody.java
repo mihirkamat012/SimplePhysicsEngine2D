@@ -1,15 +1,15 @@
-package Physics.Dynamics;
+package SimplePhysics.Dynamics;
 
-import Math.*;
-import Physics.Collision.Collider;
+import SimplePhysics.Collision.Collider;
+import SimplePhysics.Math.*;
 
 public class Rigidbody {
 	public float mass;
-	public float momentOfInertia;
+	public float MOI;
 	static int Index=0;
-	RigidbodyType type;
+	RBType type;
 	public Vector2 velocity;
-	float AngularVelocity;
+	public float angularVelocity;
 	
 	
 	public Vector2 acceleration;
@@ -22,11 +22,29 @@ public class Rigidbody {
 	public Transform transform;
 	public boolean isImmoveable;
 	public Collider collider;
+	public float c_res;
 	
-	
-	public Rigidbody(float mass, float g_multiplier,Transform tr, boolean isImmoveable, Collider col)
+	/*public Rigidbody(float mass, float g_multiplier,Transform tr, boolean isImmoveable, Collider col)
 	{
-		type=RigidbodyType.BODY;
+		type=RBType.CIRCLE;
+		this.mass=mass;
+		transform=tr;
+		velocity=new Vector2();
+		acceleration=new Vector2();
+		gravityMultiplier=g_multiplier;
+		netForce=new Vector2(0f,-9.81f*mass*gravityMultiplier);
+		momentum=new Vector2();
+		this.isImmoveable=isImmoveable;
+		collider=col;
+		collider.Center=this.transform;
+		collider.setAttachedRigidbody(this);
+		Index++;
+		
+	}*/
+	public Rigidbody(float mass, float g_multiplier,float Restitution,Transform tr, boolean isImmoveable, Collider col,RBType Type)
+	{
+		c_res=Restitution;
+		type=Type;
 		this.mass=mass;
 		transform=tr;
 		velocity=new Vector2();
@@ -41,7 +59,7 @@ public class Rigidbody {
 		Index++;
 		
 	}
-	public RigidbodyType getType()
+	public RBType getType()
 	{
 		return type;
 	}
@@ -56,7 +74,7 @@ public class Rigidbody {
 		if(isImmoveable)
 			return;
 		acceleration=netForce.multiply(1.0f/mass);
-		angularAcceleration=netTorque/momentOfInertia;
+		angularAcceleration=netTorque/MOI;
 		acceleration.setMagnitude();
 		ApplyVelocity(dt);
 		
@@ -64,25 +82,34 @@ public class Rigidbody {
 	void ApplyVelocity(float dt)
 	{
 		velocity.addToSelf(acceleration.multiply(dt));
-		AngularVelocity+=angularAcceleration*dt;
+		angularVelocity+=angularAcceleration*dt;
 		velocity.setMagnitude();
 		momentum=velocity.multiply(mass);
 		ApplyDisplacement(dt);
 	}
 	void ApplyDisplacement(float dt)
 	{
-		transform.position.addToSelf(velocity.multiply(dt));
-		transform.rotation+=(AngularVelocity*dt);
-		//velocity=newPos.subtract(transform.position).multiply(1.0f/dt);
-		//transform.position.replaceVector(newPos);
-		//
+		Vector2 newPos=transform.position.add(velocity.multiply(dt));
+		transform.rotation+=(angularVelocity*dt);
+		Vector2 dv=newPos.subtract(transform.position).multiply(1.0f/dt);
+		transform.position.replaceVector(newPos);
+		if(dv.magnitude<0.3f)
+		{
+			velocity=new Vector2();
+		}
+		else
+		{
+			velocity=dv;
+		}
 		//System.out.println(newPos.repr());
 		transform.position.setMagnitude();
 		
 		collider.Center=this.transform;
-		if(type==RigidbodyType.BOX)
+		if(type==RBType.AABB)
 		{
+			//collider.getAsDynamicPlaneCollider().setCoords();
 			//do nothing for now.
+			 collider.getAsAABBCollider().setCoords();
 		}
 		
 	}

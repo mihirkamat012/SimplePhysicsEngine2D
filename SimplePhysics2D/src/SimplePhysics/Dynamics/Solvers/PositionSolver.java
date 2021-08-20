@@ -1,8 +1,8 @@
-package Physics.Dynamics.Solvers;
+package SimplePhysics.Dynamics.Solvers;
 
 import java.util.ArrayList;
 
-import Physics.Collision.Collision;
+import SimplePhysics.Collision.Collision;
 
 public class PositionSolver extends Solver{
 
@@ -15,6 +15,8 @@ public class PositionSolver extends Solver{
 		
 		for(Collision col:cols)
 		{
+			if(col==null)
+				continue;
 			if(!col.isColliding)
 				continue;
 			else {
@@ -31,8 +33,8 @@ public class PositionSolver extends Solver{
 			}
 			else if(!col.A.isImmoveable&&!col.B.isImmoveable)
 			{
-			col.A.transform.position.addToSelf(col.collisionNormal.multiply(col.depth*Resolution*0.5f));
-			col.B.transform.position.addToSelf(col.collisionNormal.multiply(-col.depth*Resolution*0.5f));
+			col.A.transform.position.addToSelf(col.collisionNormal.multiply(-col.depth*Resolution*0.5f));
+			col.B.transform.position.addToSelf(col.collisionNormal.multiply(col.depth*Resolution*0.5f));
 			System.out.println(col.depth);
 			}
 			
