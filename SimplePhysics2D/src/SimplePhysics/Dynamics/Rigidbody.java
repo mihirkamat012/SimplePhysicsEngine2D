@@ -93,7 +93,7 @@ public class Rigidbody {
 		transform.rotation+=(angularVelocity*dt);
 		Vector2 dv=newPos.subtract(transform.position).multiply(1.0f/dt);
 		transform.position.replaceVector(newPos);
-		if(dv.magnitude<0.3f)
+		if(dv.magnitude<0.03f)
 		{
 			velocity=new Vector2();
 		}

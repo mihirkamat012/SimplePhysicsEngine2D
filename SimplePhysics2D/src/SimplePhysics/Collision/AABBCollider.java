@@ -87,7 +87,7 @@ public class AABBCollider extends Collider {
 		maxBoundsY=new Bounds(points[3],points[0],BoundsType.Y_MAX);
 	}
 	public Collision test(CircleCollider other) {
-		System.out.println("aabb c");
+		//System.out.println("aabb c");
 		Collision c=new Collision();
 		c.A=this.attachedRigidbody;
 		c.B=other.attachedRigidbody;
@@ -99,7 +99,7 @@ public class AABBCollider extends Collider {
 		c.collisionNormal=colVector.normalized().not();
 		if(colVector.magnitude<=other.radius)
 		{
-			c.depth=(-colVector.magnitude+other.radius)*2f;
+			c.depth=(-colVector.magnitude+other.radius);
 			c.isColliding=true;
 		}
 		else
@@ -143,7 +143,7 @@ public class AABBCollider extends Collider {
 	 */
 	public Collision test(AABBCollider other)
 	{
-		float permittance=0.3f;
+		float permittance=0.03f;
 		Collision c=new Collision();
 		c.A=other.attachedRigidbody;//this box
 		c.B=this.attachedRigidbody;//other box
@@ -213,16 +213,6 @@ public class AABBCollider extends Collider {
 			c.isColliding=false;
 		}
 		//finding collision normals
-		
-		/**
-		 * some fucking bullshit goes in here. I'm too fucking tired to type what does.
-		 * 
-		 * i'll probably implement SAT in here. 
-		 * God fucking dammit I find millions of AABB collision detection algorithms on the web
-		 * and NOT ONE of them has a method to find the normal OR EVEN THE COLLIDING EDGE.
-		 * 
-		 * Edit: Nvm figured it out. Will continue after a bit of celebration...
-		 */
 		return c;
 	}
 }

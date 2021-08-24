@@ -1,6 +1,9 @@
 package SimplePhysics.Collision;
 
+import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferStrategy;
 
 import SimplePhysics.Dynamics.RBType;
 import SimplePhysics.Dynamics.Rigidbody;
@@ -8,9 +11,12 @@ import SimplePhysics.Math.Transform;
 import SimplePhysics.Math.Vector2;
 
 public abstract class Collider {
+	public static Canvas canvas;
+	public BufferStrategy bs;
+	public Graphics g;
 	public Transform Center;
 	public static int rad;
-	public static Graphics gg;
+	public Graphics gg;
 	Rigidbody attachedRigidbody;
 	public void setAttachedRigidbody(Rigidbody rb)
 	{
@@ -19,7 +25,13 @@ public abstract class Collider {
 	public abstract Collision test(CircleCollider other);
 	public abstract Collision test(PlaneCollider other); 
 	public abstract Collision test(AABBCollider other);
-
+	public void setCanvas(Canvas c)
+	{
+		canvas=c;
+	}
+	public static void setGraphics() {
+		
+	}
 	public CircleCollider getAsCircleCollider()
 	{
 		return (CircleCollider)this;
@@ -34,13 +46,16 @@ public abstract class Collider {
 	}
 	public void drawCollider(Graphics g)
 	{
-		Collider.gg=g;
+		
 		if(attachedRigidbody.getType()==RBType.CIRCLE)
 		{
 			g.drawOval((int)attachedRigidbody.transform.position.X-(int)attachedRigidbody.collider.getAsCircleCollider().radius, 
 					-(int)attachedRigidbody.transform.position.Y-(int)attachedRigidbody.collider.getAsCircleCollider().radius, 
 					2*(int)attachedRigidbody.collider.getAsCircleCollider().radius, 
 					2*(int)attachedRigidbody.collider.getAsCircleCollider().radius);
+			//bs.show();
+			//g.dispose();
+			//System.out.println("p");
 			//rb.collider.getAsCircleCollider().drawCollider(g);
 		}
 		
@@ -51,12 +66,18 @@ public abstract class Collider {
 					-(int)attachedRigidbody.collider.getAsPlaneCollider().P1.Y, 
 					(int)attachedRigidbody.collider.getAsPlaneCollider().P2.X, 
 					-(int)attachedRigidbody.collider.getAsPlaneCollider().P2.Y);
+			//bs.show();
+			//g.dispose();
+			//System.out.println("q");
 			
 		}
 		else if(attachedRigidbody.getType()==RBType.AABB)
 		{
 			drawPolygon(attachedRigidbody.collider.getAsAABBCollider().Center.position,
 					attachedRigidbody.collider.getAsAABBCollider().points,g);
+			//bs.show();
+			//g.dispose();
+			//System.out.println("r");
 		}
 		else
 			return;

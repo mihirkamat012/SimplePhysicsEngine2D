@@ -1,6 +1,6 @@
 package TestBed;
 import java.awt.*;
-
+import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 
 
@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 
 import SimplePhysics.Collision.AABBCollider;
 import SimplePhysics.Collision.CircleCollider;
-
+import SimplePhysics.Collision.Collider;
 import SimplePhysics.Dynamics.RBType;
 import SimplePhysics.Dynamics.RigidPlane;
 import SimplePhysics.Dynamics.Rigidbody;
@@ -21,19 +21,28 @@ class TestGraphics
 	float dt;
 }
 public class Main extends Canvas{
-	static float timeStep=0.02f;
+	static float timeStep=0.015f;
 	int n=0;
 	public Rigidbody forceBox;
-	public void draw(Graphics g,ArrayList<Rigidbody> Rigidbodies, World w)
+	public void draw(Canvas canvas,ArrayList<Rigidbody> Rigidbodies, World w)
 	{
-
-		g.setClip(-50, 0, 1920, 1080);
+		canvas.createBufferStrategy(1);
+		BufferStrategy bs=canvas.getBufferStrategy();
+		Graphics g=bs.getDrawGraphics();
+		g.setClip(0, 0, 1920, 1080);
+		//g.scale(2, 2);
 		//System.out.println(g.getClip().getBounds().height);
-
+		Collider.canvas=canvas;
+		
 		while(true)
 		{
+			bs=canvas.getBufferStrategy();
+			g=bs.getDrawGraphics();
+			g.clearRect(0, 0, 1920, 1080);
 			for(Rigidbody rb:Rigidbodies)
 			{
+				
+				//g.clearRect(0, 0, 1920, 1080);
 				/*if(rb.getType()==RBType.CIRCLE)
 				{
 					g.drawOval((int)rb.transform.position.X-(int)rb.collider.getAsCircleCollider().radius, 
@@ -50,9 +59,16 @@ public class Main extends Canvas{
 							-(int)rb.collider.getAsPlaneCollider().P2.Y);
 					
 				}*/
+				
 				rb.collider.drawCollider(g);
 				
 			}
+			bs.show();
+			g.dispose();
+			System.out.println("clrrect");
+			
+			System.out.println("clrrect2");
+
 			//Rigidbodies.get(1).AddForce(new Vector2(5f*Rigidbodies.get(0).mass,0f), Main.timeStep);
 			//4System.out.println(Rigidbodies.get(0).transform.position.repr());
 
@@ -62,7 +78,7 @@ public class Main extends Canvas{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			g.clearRect(0, 0, 1920, 1080);
+			
 			w.step(Main.timeStep);
 			w.resolveCollisions(Main.timeStep);
 			n++;
@@ -78,14 +94,14 @@ public class Main extends Canvas{
 		//comment
 		World w=new World();
 		Main m=new Main();
-		Rigidbody rb=new Rigidbody(5f,10f,0.2f,new Transform(new Vector2(130f,0f)), false, new CircleCollider(10f,new Transform(new Vector2(10f,0f))),RBType.CIRCLE);
+		Rigidbody rb=new Rigidbody(5f,10f,0.2f,new Transform(new Vector2(130f,0f)), false, new CircleCollider(10f,new Transform(new Vector2(130f,0f))),RBType.CIRCLE);
 		//Rigidbody rb2=new Rigidbody(10f,10f,new Transform(new Vector2(100f,-200f)), false, new CircleCollider(20f,new Transform(new Vector2(20f,0f))),RBType.CIRCLE);
-		Rigidbody rb3=new Rigidbody(5f,10f,0.5f,new Transform(new Vector2(120f,0f)), false, new CircleCollider(10f,new Transform(new Vector2(10f,0f))),RBType.CIRCLE);
-		Rigidbody rb4=new Rigidbody(10f,10f,0.5f,new Transform(new Vector2(100f,-20f)), false, new CircleCollider(10f,new Transform(new Vector2(10f,0f))),RBType.CIRCLE);
-		RigidPlane plane=new RigidPlane(new Transform(new Vector2(250f,-350f)),1000f,RBType.PLANE);
+		Rigidbody rb3=new Rigidbody(5f,10f,0.5f,new Transform(new Vector2(120f,0f)), false, new CircleCollider(12f,new Transform(new Vector2(120f,0f))),RBType.CIRCLE);
+		Rigidbody rb4=new Rigidbody(10f,10f,0.5f,new Transform(new Vector2(100f,-20f)), false, new CircleCollider(10f,new Transform(new Vector2(100f,-20f))),RBType.CIRCLE);
+		RigidPlane plane=new RigidPlane(new Transform(new Vector2(250f,-650f)),1000f,RBType.PLANE);
 		Rigidbody box=new Rigidbody(10f,10f,0.7f,new Transform(new Vector2(100,-100)),false,new AABBCollider(100,100,new Transform(new Vector2(100,-100))),RBType.AABB);
-		Rigidbody box2=new Rigidbody(10f,10f,0.9f,new Transform(new Vector2(200,-100)),false,new AABBCollider(50,50,new Transform(new Vector2(130,-200))),RBType.AABB);
-
+		Rigidbody box2=new Rigidbody(10f,10f,0.9f,new Transform(new Vector2(200,-100)),false,new AABBCollider(50,50,new Transform(new Vector2(200,-100))),RBType.AABB);
+		
 		//Rigidbody box3=new Rigidbody(10f,10f,new Transform(new Vector2(100,-200)),false,new AABBCollider(100,100,new Transform(new Vector2(100,-100))),RBType.AABB);
 		//Rigidbody box4=new Rigidbody(10f,10f,new Transform(new Vector2(200,-200)),false,new AABBCollider(50,50,new Transform(new Vector2(130,-200))),RBType.AABB);
 
@@ -114,10 +130,8 @@ public class Main extends Canvas{
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 		f.add(m);
-		Graphics g=m.getGraphics().create();
-		Graphics2D g2d=(Graphics2D)g;
-		g2d.scale(2, 2);
-		m.draw(g2d, w.getRigidbodies(),w);
+		
+		m.draw((Canvas)m, w.getRigidbodies(),w);
 		
 	}
 
