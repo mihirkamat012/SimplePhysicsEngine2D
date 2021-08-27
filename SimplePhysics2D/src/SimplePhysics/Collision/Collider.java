@@ -22,6 +22,7 @@ public abstract class Collider {
 	{
 		this.attachedRigidbody=rb;
 	}
+	public abstract Collision test(Collider other);
 	public abstract Collision test(CircleCollider other);
 	public abstract Collision test(PlaneCollider other); 
 	public abstract Collision test(AABBCollider other);

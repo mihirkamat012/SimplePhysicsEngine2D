@@ -25,7 +25,7 @@ public class World {
 	}
 	public void addSolvers()
 	{
-		Solvers.add(new PositionSolver((.5f)));
+		Solvers.add(new PositionSolver((.1f)));
 		Solvers.add(new ImpulseSolver());
 	}
 	public ArrayList<Rigidbody> getRigidbodies()
@@ -66,87 +66,102 @@ public class World {
 	{
 		//Object a;
 		ArrayList<Collision> cols=new ArrayList<Collision>();
-		for(int i=0;i<Rigidbodies.size();i++)
+		for(Rigidbody rb1:Rigidbodies)
 		{
-			for(int j=i+1
-					;j<Rigidbodies.size();j++)
+			for(Rigidbody rb2:Rigidbodies)
 			{
-				//detect collision
-				//fill collision list
-				//c p aabb
-				//  p aabb
-				//    aabb
-				if(Rigidbodies.get(i).equals(Rigidbodies.get(j)))
+				if(rb1.equals(rb2)||rb2.equals(rb1))
 					break;
-				if(Rigidbodies.get(i).getType()==RBType.CIRCLE)
-				{
-					if(Rigidbodies.get(j).getType()==RBType.CIRCLE)
-					{
-						//System.out.println("c c");
-						cols.add(Rigidbodies.get(i).collider.test((CircleCollider)Rigidbodies.get(j).collider));
-					}
-					else if(Rigidbodies.get(j).getType()==RBType.PLANE)
-					{
-						//System.out.println("c p");
-						cols.add(Rigidbodies.get(i).collider.test((PlaneCollider)Rigidbodies.get(j).collider));
-					}
-					else if(Rigidbodies.get(j).getType()==RBType.AABB)
-					{
-						//System.out.println("c aabb");
-						cols.add(Rigidbodies.get(i).collider.test((AABBCollider)Rigidbodies.get(j).collider));
-					}
-					
-				}
-				else if(Rigidbodies.get(i).getType()==RBType.PLANE)
-				{
-					if(Rigidbodies.get(j).getType()==RBType.AABB)
-					{
-						//System.out.println("p aabb");
-						cols.add(Rigidbodies.get(i).collider.getAsPlaneCollider().test((AABBCollider)Rigidbodies.get(j).collider));
-					}
-					
-				}
-				else if(Rigidbodies.get(i).getType()==RBType.AABB)
-				{
-					if(Rigidbodies.get(j).getType()==RBType.PLANE)
-					{
-						//System.out.println("aabb p");
-						cols.add(Rigidbodies.get(i).collider.getAsAABBCollider().test((PlaneCollider)Rigidbodies.get(j).collider));
-					}
-					if(Rigidbodies.get(j).getType()==RBType.AABB)
-					{
-						//System.out.println("aabb aabb");
-						cols.add(Rigidbodies.get(i).collider.getAsAABBCollider().test((AABBCollider)Rigidbodies.get(j).collider));
-					}
-					if(Rigidbodies.get(j).getType()==RBType.CIRCLE)
-					{
-						//System.out.println("aabb aabb");
-						cols.add(Rigidbodies.get(i).collider.getAsAABBCollider().test((CircleCollider)Rigidbodies.get(j).collider));
-					}
-					
-				}
-				else if(Rigidbodies.get(i).getType()==RBType.AABB)
-				{
-					if(Rigidbodies.get(j).getType()==RBType.AABB)
-					{
-						//System.out.println("aabb aabb");
-						cols.add(Rigidbodies.get(i).collider.getAsAABBCollider().test((AABBCollider)Rigidbodies.get(j).collider));
-					}
-					
-					
-				}
-				else
-					continue;
-				
-			}
-
+				cols.add(rb1.collider.test(rb2.collider));	
+		  	}
+					  
 		}
+				/**else if(Rigidbodies.get(i).getType()==RBType.AABB)
+				{
+					if(Rigidbodies.get(j).getType()==RBType.AABB)
+					{
+						//System.out.println("aabb aabb");
+						cols.add(Rigidbodies.get(i).collider.getAsAABBCollider().test((AABBCollider)Rigidbodies.get(j).collider));
+					}
+					
+					
+				}*/
+				//else
+				//	continue;
+				
+			
 		for(Solver s:Solvers)
 		{
 			s.solve(cols,dt);//solve collisions
 		}
 		cols.clear();
-		
 	}
 
 }
+/*for(int i=0;i<Rigidbodies.size();i++)
+{
+	for(int j=i+1
+			;j<Rigidbodies.size();j++)
+	{
+		//detect collision
+		//fill collision list
+		//c p aabb
+		//  p aabb
+		//    aabb
+		if(Rigidbodies.get(i).equals(Rigidbodies.get(j)))
+			break;
+		if(Rigidbodies.get(i).getType()==RBType.CIRCLE)
+		{
+			if(Rigidbodies.get(j).getType()==RBType.CIRCLE)
+			{
+				//System.out.println("c c");
+				cols.add(Rigidbodies.get(i).collider.test((CircleCollider)Rigidbodies.get(j).collider));
+			}
+			else if(Rigidbodies.get(j).getType()==RBType.PLANE)
+			{
+				//System.out.println("c p");
+				cols.add(Rigidbodies.get(i).collider.test((PlaneCollider)Rigidbodies.get(j).collider));
+			}
+			else if(Rigidbodies.get(j).getType()==RBType.AABB)
+			{
+				//System.out.println("c aabb");
+				cols.add(Rigidbodies.get(i).collider.test((AABBCollider)Rigidbodies.get(j).collider));
+			}
+			
+		}
+		else if(Rigidbodies.get(i).getType()==RBType.PLANE)
+		{
+			if(Rigidbodies.get(j).getType()==RBType.AABB)
+			{
+				//System.out.println("p aabb");
+				cols.add(Rigidbodies.get(i).collider.getAsPlaneCollider().test((AABBCollider)Rigidbodies.get(j).collider));
+			}
+			else if(Rigidbodies.get(j).getType()==RBType.CIRCLE)
+			{
+				//System.out.println("c c");
+				cols.add(Rigidbodies.get(i).collider.test((CircleCollider)Rigidbodies.get(j).collider));
+			}
+			
+		}
+		else if(Rigidbodies.get(i).getType()==RBType.AABB)
+		{
+			if(Rigidbodies.get(j).getType()==RBType.PLANE)
+			{
+				//System.out.println("aabb p");
+				cols.add(Rigidbodies.get(i).collider.getAsAABBCollider().test((PlaneCollider)Rigidbodies.get(j).collider));
+			}
+			if(Rigidbodies.get(j).getType()==RBType.AABB)
+			{
+				//System.out.println("aabb aabb");
+				cols.add(Rigidbodies.get(i).collider.getAsAABBCollider().test((AABBCollider)Rigidbodies.get(j).collider));
+			}
+			if(Rigidbodies.get(j).getType()==RBType.CIRCLE)
+			{
+				//System.out.println("aabb aabb");
+				cols.add(Rigidbodies.get(i).collider.getAsAABBCollider().test((CircleCollider)Rigidbodies.get(j).collider));
+			}
+			
+		}*/
+/*
+ * 
+ */

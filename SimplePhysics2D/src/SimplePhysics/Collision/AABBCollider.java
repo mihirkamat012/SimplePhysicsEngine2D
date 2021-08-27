@@ -99,7 +99,7 @@ public class AABBCollider extends Collider {
 		c.collisionNormal=colVector.normalized().not();
 		if(colVector.magnitude<=other.radius)
 		{
-			c.depth=(-colVector.magnitude+other.radius);
+			c.depth=-(-colVector.magnitude+other.radius)*2f;
 			c.isColliding=true;
 		}
 		else
@@ -109,7 +109,10 @@ public class AABBCollider extends Collider {
 		}
 		return c;
 	}
-
+	public Collision test(Collider other)
+	{
+		return other.test(this);
+	}
 	@Override
 	public Collision test(PlaneCollider other) {
 		//System.out.println("in plc method");
@@ -143,7 +146,7 @@ public class AABBCollider extends Collider {
 	 */
 	public Collision test(AABBCollider other)
 	{
-		float permittance=0.03f;
+		float permittance=0.1f;
 		Collision c=new Collision();
 		c.A=other.attachedRigidbody;//this box
 		c.B=this.attachedRigidbody;//other box
@@ -162,13 +165,17 @@ public class AABBCollider extends Collider {
 			{
 				if(D.quad()==1||D.quad()==2)
 				{
+					System.out.println("aaa");
 					c.collisionNormal=new Vector2(0f,-1f);
-					c.depth=-D.Y+(this.h+other.h)*0.5f;
+					//0 -1
+					c.depth=(-D.Y+(this.h+other.h))*0.5f;
 				}
 				else
 				{
+					System.out.println("bbb");
 					c.collisionNormal=new Vector2(0f,1f);
-					c.depth=D.Y-(this.h+other.h)*0.5f;
+					//0 1
+					c.depth=(D.Y-(this.h+other.h))*0.5f;
 				}
 				c.isColliding=true;
 				System.out.println("z");
@@ -179,29 +186,64 @@ public class AABBCollider extends Collider {
 			{
 				if(D.quad()==1||D.quad()==4)
 				{
+					//System.out.println("ccc");
 					c.collisionNormal=new Vector2(-1f,0f);
-					c.depth=D.X-(this.w+other.w);
+					//-1 0
+					c.depth=0.5f*(D.X-(this.w+other.w));
 				}
 				else
 				{
+					//System.out.println("ddd");
 					c.collisionNormal=new Vector2(1f,0f);
-					c.depth=D.X-(this.w+other.w);
+					//1 0
+					c.depth=0.5f*(D.X-(this.w+other.w));
 				}
 				
 				
 			}
 			if(dy>=permittance&&dx>=permittance)
 			{
-				if(D.quad()==1||D.quad()==2)
+				if(dy>=dx)
 				{
-					c.collisionNormal=new Vector2(0f,-1f);
-					c.depth=-D.Y+(this.h+other.h)*0.5f;
+					if(D.quad()==1||D.quad()==4)
+					{
+						System.out.println("ccc");
+						c.collisionNormal=new Vector2(-1f,0f);
+						//-1 0
+						c.depth=0.5f*(D.X-(this.w+other.w));
+					}
+					else
+					{
+						System.out.println("ddd");
+						c.collisionNormal=new Vector2(1f,0f);
+						//1 0
+						c.depth=0.5f*(D.X-(this.w+other.w));
+					}
+				}
+				else if (dy<dx)
+				{
+					if(D.quad()==1||D.quad()==2)
+					{
+						System.out.println("aaa");
+						c.collisionNormal=new Vector2(0f,-1f);
+						//0 -1
+						c.depth=(-D.Y+(this.h+other.h))*0.5f;
+					}
+					else
+					{
+						System.out.println("bbb");
+						c.collisionNormal=new Vector2(0f,1f);
+						//0 1
+						c.depth=(D.Y-(this.h+other.h))*0.5f;
+					}
+					c.isColliding=true;
+					System.out.println("z");
 				}
 				else
 				{
-					c.collisionNormal=new Vector2(0f,1f);
-					c.depth=D.Y-(this.h+other.h)*0.5f;
+					c.collisionNormal=new Vector2();
 				}
+				
 			}
 			c.isColliding=true;
 			

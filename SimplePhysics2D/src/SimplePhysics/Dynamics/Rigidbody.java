@@ -89,18 +89,19 @@ public class Rigidbody {
 	}
 	void ApplyDisplacement(float dt)
 	{
-		Vector2 newPos=transform.position.add(velocity.multiply(dt));
-		transform.rotation+=(angularVelocity*dt);
-		Vector2 dv=newPos.subtract(transform.position).multiply(1.0f/dt);
-		transform.position.replaceVector(newPos);
-		if(dv.magnitude<0.03f)
-		{
-			velocity=new Vector2();
-		}
-		else
-		{
-			velocity=dv;
-		}
+		//Vector2 newPos=transform.position.add(velocity.multiply(dt));
+		//transform.rotation+=(angularVelocity*dt);
+		//Vector2 dv=newPos.subtract(transform.position).multiply(1.0f/dt);
+		transform.position.addToSelf(velocity.multiply(dt));
+		//transform.position.replaceVector(newPos);
+		//if(dv.magnitude==0)
+		//{
+		//	velocity=new Vector2();
+		//}
+		//else
+		//{
+		//	velocity=dv;
+		//}
 		//System.out.println(newPos.repr());
 		transform.position.setMagnitude();
 		

@@ -20,6 +20,10 @@ public class CircleCollider extends Collider{
 	{
 		return (Collider)this;
 	}
+	public Collision test(Collider other)
+	{
+		return other.test(this);
+	}
 	public Collision test(CircleCollider other)
 	{
 		Collision c=new Collision();

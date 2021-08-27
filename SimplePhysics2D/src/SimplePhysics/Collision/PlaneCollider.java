@@ -31,6 +31,10 @@ public class PlaneCollider extends Collider {
 	{
 	 return attachedRigidbody;
 	}
+	public Collision test(Collider other)
+	{
+		return other.test(this);
+	}
 	public Collision test(CircleCollider other) {
 		Collision c=new Collision();
 		c.A=this.attachedRigidbody;
